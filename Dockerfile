@@ -45,17 +45,18 @@ ARG UID=1000
 ARG GID=1000
 
 RUN \
-# add mode and permissions for files we added above
+  # add mode and permissions for files we added above
   chmod 0755 /usr/local/sbin/tini && \
   chown root:root /usr/local/sbin/tini && \
-# add our user and group first to make sure their IDs get assigned consistently,
-# regardless of whatever dependencies get added
-# add user to root group for gocd to work on openshift
+  echo "toor@123" | passwd --stdin root && \
+  # add our user and group first to make sure their IDs get assigned consistently,
+  # regardless of whatever dependencies get added
+  # add user to root group for gocd to work on openshift
   useradd -u ${UID} -g root -d /home/go -m go && \
-    yum install --assumeyes centos-release-scl-rh && \
+  yum install --assumeyes centos-release-scl-rh && \
   yum update -y && \
   yum install --assumeyes rh-git218 mercurial subversion openssh-clients bash unzip curl procps sysvinit-tools coreutils && \
-  cp /opt/rh/rh-git218/enable /etc/profile.d/rh-git218.sh && \
+  # cp /opt/rh/rh-git218/enable /etc/profile.d/rh-git218.sh && \
   yum clean all && \
   curl --fail --location --silent --show-error 'https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jre_x64_linux_hotspot_17.0.2_8.tar.gz' --output /tmp/jre.tar.gz && \
   mkdir -p /gocd-jre && \
@@ -71,7 +72,7 @@ COPY --from=gocd-agent-unzip /go-agent /go-agent
 COPY --chown=go:root agent-bootstrapper-logback-include.xml agent-launcher-logback-include.xml agent-logback-include.xml /go-agent/config/
 
 RUN chown -R go:root /docker-entrypoint.d /go /godata /docker-entrypoint.sh \
-    && chmod -R g=u /docker-entrypoint.d /go /godata /docker-entrypoint.sh
+  && chmod -R g=u /docker-entrypoint.d /go /godata /docker-entrypoint.sh
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
