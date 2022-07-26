@@ -61,8 +61,19 @@ RUN \
   pip3 install uuid datetime && \
   yum -y install epel-release && \
   yum update -y && \
-  yum install -y ansible 
+  yum install -y ansible && \
+  yum install -y yum-utils device-mapper-persistent-data lvm2 && \
+  yum install -y docker-ce-20.10.9-3.el7
 
+# PATHs:
+# terraform
+# /opt/packer
+# oci
+# python3
+# pip3
+# ansible
+# docker
+# git
 
 ADD docker-entrypoint.sh /
 
