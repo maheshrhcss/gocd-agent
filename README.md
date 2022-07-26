@@ -1,4 +1,4 @@
-# GoCD Agent Docker image
+# GoCD Agent Customized Docker image
 
 [GoCD agent](https://www.gocd.org) docker image based on centos 7.
 
